@@ -10,6 +10,9 @@
 %public ifnot(B, THEN, ELSE): ifte(B, ELSE, THEN) { $1 }
 %public ifnot_(B, THEN): ifnot(B, THEN, X__ERR_TOK) { $1 }
 
+%public unless(B, THEN, ELSE): ifnot(B, THEN, ELSE) { $1 }
+%public unless_(B, THEN): ifnot_(B, THEN) { $1 }
+
 %public ifand(B1, B2, THEN, ELSE): ifte(B1, ifte(B2, THEN, ELSE), ELSE) { $1 }
 %public ifand_(B1, B2, THEN): ifand(B1, B2, THEN, X__ERR_TOK) { $1 }
 
@@ -27,3 +30,9 @@
 
 %public ifxnor(B1, B2, THEN, ELSE): ifte(B1, ifte(B2, THEN, ELSE), ifte(B2, ELSE, THEN)) { $1 }
 %public ifxnor_(B1, B2, THEN): ifxnor(B1, B2, THEN, X__ERR_TOK) { $1 }
+
+epsilon: {}
+
+%public require(B): ift(B, epsilon) { $1 }
+%public refuse(B): unless_(B, epsilon) { $1 }
+%public reject(B): refuse(B) { $1 }
